@@ -1,7 +1,8 @@
 import java.util.Random;
 
 public class Animal {
-    private int id = 1;
+    private static int CURRENT_ID = 1;
+    private int id;
     private String name;
     private int age;
     //Как лучше satietyLevel | levelSatiety
@@ -10,12 +11,22 @@ public class Animal {
     private int healthLevel;
     private int averageLevel;
     Random rnd = new Random();
-    //Где лучше всего было бы расположить, средний уровень
+    //В чем разница между CURRENT_ID++ между просто +1
 
     public Animal(String name) {
-        this.id = id+1;
+        this.id = CURRENT_ID++;
         this.name = name;
         this.age = 1 + rnd.nextInt(17);
+        this.satietyLevel = 20 + rnd.nextInt(61);
+        this.moodLevel = 20 + rnd.nextInt(61);
+        this.healthLevel = 20 + rnd.nextInt(61);
+        this.averageLevel = (satietyLevel+moodLevel+healthLevel)/3;
+    }
+
+    public Animal(String name, int age) {
+        this.id = CURRENT_ID++;
+        this.name = name;
+        this.age = age;
         this.satietyLevel = 20 + rnd.nextInt(61);
         this.moodLevel = 20 + rnd.nextInt(61);
         this.healthLevel = 20 + rnd.nextInt(61);
@@ -26,8 +37,8 @@ public class Animal {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int setId() {
+        return id;
     }
 
     public String getName() {
@@ -86,6 +97,8 @@ public class Animal {
         this.averageLevel = agerageLevel;
 
     }
+
+
     public static String printTableHeader() {
         return String.format("+----+--------+--------+----------+------------+--------+---------------+\n" +
                 "| #  | ИМЯ        | ВОЗРАСТ| ЗДОРОВЬЕ | НАСТРОЕНИЕ | СЫТОСТЬ| СРЕДНИЙ УРОВЕНЬ |\n" +
