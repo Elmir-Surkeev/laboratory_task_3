@@ -6,7 +6,7 @@ public class Action {
 
     public static void main() {
         Scanner sc = new Scanner(System.in);
-
+        Random rnd = new Random();
         Animal cat1 = new Animal("Laika");
         Animal cat2 = new Animal("Pushok");
         Animal cat3 = new Animal("Chirick");
@@ -23,7 +23,8 @@ public class Action {
                         "Enter 1 to add cat\n" +
                         "Enter 2 to feed cat\n" +
                         "Enter 3 to play with cat\n" +
-                        "Enter 4 to go to the vet");
+                        "Enter 4 to go to the vet\n" +
+                        "Enter 5 to for go nextDay");
                 int choice = sc.nextInt();
                 sc.nextLine();
                 switch (choice) {
@@ -40,6 +41,9 @@ public class Action {
                         break;
                     case 4:
                         goToVet(sc);
+                        break;
+                    case 5:
+                        nextDay(rnd);
                         break;
                     default:
                         System.out.println("Invalid choice");
@@ -80,14 +84,13 @@ public class Action {
             sc.nextLine();
         }
     }
-
     public static void feedCat(Scanner sc) {
         System.out.println("Enter name of the cat:");
         String name = sc.nextLine();
         try {
             animals.stream()
                     //find first это использовать что 1-ый элемент да
-                    .filter(animal -> animal.getName().equals(name))
+                    .filter(animal -> animal.getName().equals(name) || Integer.parseInt(name) == animal.getId())
                     .findFirst()
                     .ifPresentOrElse(animal -> {
                         if (animal.getAge() > 1 && animal.getAge() < 5){
@@ -113,7 +116,7 @@ public class Action {
         String name = sc.nextLine();
         try {
             animals.stream()
-                    .filter(animal -> animal.getName().equals(name))
+                    .filter(animal -> animal.getName().equals(name) || Integer.parseInt(name) == animal.getId())
                     .findFirst()
                     .ifPresentOrElse(animal -> {
                                 if (animal.getAge() > 1 && animal.getAge() < 5){
@@ -136,13 +139,13 @@ public class Action {
         } catch (Exception e) {
             System.out.println("Error play with cat: " + e.getMessage());
         }
-    }
+}
     public static void goToVet(Scanner sc) {
         System.out.println("Enter name of the cat:");
         String name = sc.nextLine();
         try {
             animals.stream()
-                    .filter(animal -> animal.getName().equals(name))
+                    .filter(animal -> animal.getName().equals(name) || Integer.parseInt(name) == animal.getId())
                     .findFirst()
                     .ifPresentOrElse(animal -> {
                                 if (animal.getAge() > 1 && animal.getAge() < 5){
@@ -165,5 +168,14 @@ public class Action {
         } catch (Exception e) {
             System.out.println("Error play with cat: " + e.getMessage());
         }
+    }
+    public static void nextDay(Random rnd){
+        System.out.println("You are there tomorrow");
+        animals.stream()
+                .forEach(a -> {
+                    a.setSatietyLevel(a.getSatietyLevel()- rnd.nextInt(5)+1);
+                    a.setMoodLevel(a.getMoodLevel()+ rnd.nextInt(7)-3);
+                    a.setHealthLevel(a.getHealthLevel()- rnd.nextInt(7)-3);
+                });
     }
 }
