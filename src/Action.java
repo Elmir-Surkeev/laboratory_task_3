@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Action {
@@ -10,8 +11,9 @@ public class Action {
         animals.add(dog);
         animals.add(cat);
         animals.add(parrot);
-
         System.out.println(Animal.printTableHeader());
+
+        Collections.sort(animals, (a1, a2) -> Integer.compare(a1.getAverageLevel(), a2.getAverageLevel()));
         animals.forEach(animal -> System.out.println(animal.toString()));
     }
 }
