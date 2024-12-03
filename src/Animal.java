@@ -10,6 +10,7 @@ public class Animal {
     private int moodLevel;
     private int healthLevel;
     private int averageLevel;
+    private int checkToDo = 1;
     Random rnd = new Random();
     //В чем разница между CURRENT_ID++ между просто +1
 
@@ -20,8 +21,13 @@ public class Animal {
         this.satietyLevel = 20 + rnd.nextInt(61);
         this.moodLevel = 20 + rnd.nextInt(61);
         this.healthLevel = 20 + rnd.nextInt(61);
-        this.averageLevel = (satietyLevel+moodLevel+healthLevel)/3;
+        this.averageLevel = (satietyLevel + moodLevel + healthLevel) / 3;
+        this.checkToDo = 1;
     }
+    public void recalculateAverageLevel() {
+        this.averageLevel = (satietyLevel + moodLevel + healthLevel) / 3;
+    }
+
 
     public Animal(String name, int age) {
         this.id = CURRENT_ID++;
@@ -31,6 +37,7 @@ public class Animal {
         this.moodLevel = 20 + rnd.nextInt(61);
         this.healthLevel = 20 + rnd.nextInt(61);
         this.averageLevel = (satietyLevel+moodLevel+healthLevel)/3;
+        this.checkToDo = 1;
     }
 
     public int getId() {
@@ -63,6 +70,7 @@ public class Animal {
 
     public void setSatietyLevel(int satietyLevel) {
         this.satietyLevel = satietyLevel;
+        recalculateAverageLevel();
     }
 
     public int getMoodLevel() {
@@ -71,6 +79,7 @@ public class Animal {
 
     public void setMoodLevel(int moodLevel) {
         this.moodLevel = moodLevel;
+        recalculateAverageLevel();
     }
 
     public int getHealthLevel() {
@@ -79,14 +88,7 @@ public class Animal {
 
     public void setHealthLevel(int healthLevel) {
         this.healthLevel = healthLevel;
-    }
-
-    public Random getRnd() {
-        return rnd;
-    }
-
-    public void setRnd(Random rnd) {
-        this.rnd = rnd;
+        recalculateAverageLevel();
     }
 
     public int getAverageLevel() {
@@ -95,9 +97,15 @@ public class Animal {
 
     public void setAverageLevel(int agerageLevel) {
         this.averageLevel = agerageLevel;
-
     }
 
+    public int getCheckToDo() {
+        return checkToDo;
+    }
+
+    public void setCheckToDo(int checkToDo) {
+        this.checkToDo = checkToDo;
+    }
 
     public static String printTableHeader() {
         return String.format("+----+--------+--------+----------+------------+--------+---------------+\n" +

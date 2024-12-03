@@ -1,6 +1,7 @@
 import java.util.*;
 ////Если использовать два языка при вводе на сканере выходи ошибка InputMisMatchException
 //Очистка буфера
+//Почему у меня средний не обновляется
 public class Action {
     static List<Animal> animals = new ArrayList<>();
 
@@ -59,10 +60,13 @@ public class Action {
     }
 
     public static void addAnimal(Scanner sc) {
+//        if (animal.getAge() > 1 && animal.getAge() < 5){
+//            animal.setSatietyLevel(animal.getSatietyLevel() + 7);
+//            animal.setMoodLevel(animal.getMoodLevel() + 7);
         try {
             System.out.println("Enter name:");
             String name = sc.nextLine();
-            if (animals.stream().anyMatch(animal -> animal.getName().equals(name))) {
+            if (animals.stream().anyMatch(animal ->animal.getName().equalsIgnoreCase(name))) {
                 System.out.println("Animal already exists. Enter another name.");
                 return;
             }
@@ -86,24 +90,32 @@ public class Action {
     }
     public static void feedCat(Scanner sc) {
         System.out.println("Enter name of the cat:");
-        String name = sc.nextLine();
+        String name = sc.next();
         try {
             animals.stream()
+                    //Как лучше в фильтре отбрасывать, или по условию проверить и Exception вывести
+                    //.filter(animal -> (animal.getName().equals(name) || Integer.parseInt(name) == animal.getId()) && animal.getCheckToDo() == 1)
+                    .filter(animal -> (animal.getName().equalsIgnoreCase(name) || Integer.parseInt(name) == animal.getId()))
                     //find first это использовать что 1-ый элемент да
-                    .filter(animal -> animal.getName().equals(name) || Integer.parseInt(name) == animal.getId())
                     .findFirst()
                     .ifPresentOrElse(animal -> {
-                        if (animal.getAge() > 1 && animal.getAge() < 5){
+                        if (animal.getCheckToDo() == 0){
+                            throw new RuntimeException("This cat toDo today");
+                        }
+                        else if (animal.getAge() > 1 && animal.getAge() < 5){
                             animal.setSatietyLevel(animal.getSatietyLevel() + 7);
                             animal.setMoodLevel(animal.getMoodLevel() + 7);
+                            animal.setCheckToDo(animal.getCheckToDo()-1);
                         }else if (animal.getAge()>6 && animal.getAge() < 10){
                             animal.setSatietyLevel(animal.getSatietyLevel() + 5);
                             animal.setMoodLevel(animal.getMoodLevel() + 5);
+                            animal.setCheckToDo(animal.getCheckToDo()-1);
                         }else if (animal.getAge()> 10){
                             animal.setSatietyLevel(animal.getSatietyLevel() + 4);
                             animal.setMoodLevel(animal.getMoodLevel() + 4);
+                            animal.setCheckToDo(animal.getCheckToDo()-1);
                         }else {
-                            System.out.println("Eror");
+                            System.out.println("Error");
                         }},
                         ()-> System.out.println("Error")
                         );
@@ -113,24 +125,30 @@ public class Action {
     }
     public static void playWithCat(Scanner sc) {
         System.out.println("Enter name of the cat:");
-        String name = sc.nextLine();
+        String name = sc.next();
         try {
             animals.stream()
-                    .filter(animal -> animal.getName().equals(name) || Integer.parseInt(name) == animal.getId())
+                    .filter(animal -> animal.getName().equalsIgnoreCase(name) || Integer.parseInt(name) == animal.getId())
                     .findFirst()
                     .ifPresentOrElse(animal -> {
-                                if (animal.getAge() > 1 && animal.getAge() < 5){
+                                if (animal.getCheckToDo() == 0){
+                                    throw new RuntimeException("This cat toDo today");
+                                }
+                                else if (animal.getAge() > 1 && animal.getAge() < 5){
                                     animal.setSatietyLevel(animal.getSatietyLevel() -3);
                                     animal.setMoodLevel(animal.getMoodLevel() + 7);
                                     animal.setHealthLevel(animal.getHealthLevel()+7);
+                                    animal.setCheckToDo(animal.getCheckToDo()-1);
                                 }else if (animal.getAge()>6 && animal.getAge() < 10){
                                     animal.setSatietyLevel(animal.getSatietyLevel() - 5);
                                     animal.setMoodLevel(animal.getMoodLevel() + 5);
                                     animal.setHealthLevel(animal.getHealthLevel()+5);
+                                    animal.setCheckToDo(animal.getCheckToDo()-1);
                                 }else if (animal.getAge()> 10){
                                     animal.setSatietyLevel(animal.getSatietyLevel() - 6);
                                     animal.setMoodLevel(animal.getMoodLevel() + 4);
                                     animal.setHealthLevel(animal.getHealthLevel()+4);
+                                    animal.setCheckToDo(animal.getCheckToDo()-1);
                                 }else {
                                     System.out.println("Error");
                                 }},
@@ -142,24 +160,30 @@ public class Action {
 }
     public static void goToVet(Scanner sc) {
         System.out.println("Enter name of the cat:");
-        String name = sc.nextLine();
+        String name = sc.next();
         try {
             animals.stream()
-                    .filter(animal -> animal.getName().equals(name) || Integer.parseInt(name) == animal.getId())
+                    .filter(animal -> animal.getName().equalsIgnoreCase(name) || Integer.parseInt(name) == animal.getId())
                     .findFirst()
                     .ifPresentOrElse(animal -> {
-                                if (animal.getAge() > 1 && animal.getAge() < 5){
+                                if (animal.getCheckToDo() == 0){
+                                    throw new RuntimeException("This cat toDo today");
+                                }
+                                else if (animal.getAge() > 1 && animal.getAge() < 5){
                                     animal.setSatietyLevel(animal.getSatietyLevel() -3);
                                     animal.setMoodLevel(animal.getMoodLevel() -3);
                                     animal.setHealthLevel(animal.getHealthLevel()+7);
+                                    animal.setCheckToDo(animal.getCheckToDo()-1);
                                 }else if (animal.getAge()>6 && animal.getAge() < 10){
                                     animal.setSatietyLevel(animal.getSatietyLevel() - 5);
                                     animal.setMoodLevel(animal.getMoodLevel() - 5);
                                     animal.setHealthLevel(animal.getHealthLevel()+5);
+                                    animal.setCheckToDo(animal.getCheckToDo()-1);
                                 }else if (animal.getAge()> 10){
                                     animal.setSatietyLevel(animal.getSatietyLevel() - 4);
                                     animal.setMoodLevel(animal.getMoodLevel() - 4);
                                     animal.setHealthLevel(animal.getHealthLevel()+4);
+                                    animal.setCheckToDo(animal.getCheckToDo()-1);
                                 }else {
                                     System.out.println("Error");
                                 }},
@@ -176,6 +200,7 @@ public class Action {
                     a.setSatietyLevel(a.getSatietyLevel()- rnd.nextInt(5)+1);
                     a.setMoodLevel(a.getMoodLevel()+ rnd.nextInt(7)-3);
                     a.setHealthLevel(a.getHealthLevel()- rnd.nextInt(7)-3);
+                    a.setCheckToDo(1);
                 });
     }
 }
